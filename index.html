@@ -48,9 +48,8 @@
         #main {
             color: #000;
             margin: 0 auto;
-            padding-top: 40px;
-            ;
-            width: 980px;
+            padding-top: 20px;
+            width: 1280px;
         }
 
         #event_title {
@@ -80,7 +79,7 @@
         }
 
         #current_step {
-            line-height: 42px;
+            line-height: 0px;
             font-size: 42px;
             font-weight: bold;
         }
@@ -130,7 +129,7 @@
         }
 
         #print_box span {
-            margin: 4px;
+            /*margin: 2px;*/
             color: #fff;
         }
     </style>
@@ -139,9 +138,9 @@
 <body class="bg index">
     <div id="container">
         <div id="wrapper" class="mh">
-            <h2 style="text-align: center">机场业务产品线显示器抽奖活动</h2>
+            <h2 style="text-align: center">抽奖活动</h2>
             <div class="h20"></div>
-<!--             <div class="content" style="text-align: center;">一个简单的在线抽奖系统, 可用于公司年会抽奖, 电视台抽奖等，可以自己设定抽奖名单、抽奖人数、每次出奖人数，有防止重复得奖的功能。</div> -->
+             <div class="content" style="text-align: center;">说明：已经抽中的人员会从奖池中移除，防止重复中奖。</div>
 
             <script type="text/javascript">
                 var game;
@@ -198,16 +197,25 @@
                         <label>奖项设置</label>
                         <div>每行一个奖项, 格式为竖线分隔的: 奖项名|数量|每次抽几个|奖品</div>
                         <textarea name="prizes" rows="6" cols="84">
-一等奖|2|1|Dell SE2419H 24寸显示器一台
+一等奖|50|10|Dell SE2419H 24寸显示器一台
                         </textarea>
 
                         <label>候选人列表</label>
                         <div>每行一人, 或半角逗号分隔</div>
                         <textarea name="candidates" rows="6" cols="84">
-周延年（2521092）
-王建宇（2521093）
-周婷（2521094）
-员工1,员工2,员工3,员工4,员工5,员工6,员工7,员工8,员工9,员工10,alex,sam,doris,finny,grice,holly,jack,king,lou,quit,wait,ediy,ray,mac,tiny,yelli,hello
+周延年
+王建宇
+周婷
+员工1,员工2,员工3,员工4,员工5,员工6,员工7,员工8,员工9
+                            员工10,alex,sam,doris,finny,grice,holly
+                            jack,king,lou,quit,wait,ediy,ray,mac
+                            tiny,yelli,hello
+                            小米,大米,小明,小红,张三,李四,王麻子,刘德华
+                            张学友,古天乐2,小米2,大米2,小明2,小红2,张三2,李四2,王麻2子,刘德华2
+                            张学友3,古天乐3,小米3,大米23,小明32,小红23,张三23,李四23,王麻23子,刘德华23
+                            张学友4,古天乐4,小米4,大米24,小明24,小红24,张三24,李四24,王麻42子,刘德华424
+                            张学友5,古天乐5,小米5,大米25,小明25,小红25,张三25,李四25,王麻25子,刘德华25
+                            张学友6,古天乐6,小米26,大米26,小明26,小红26,张三26,李四26,王麻2子6,刘德华26
                         </textarea>
 
                         <label>跳动时间间隔</label>
@@ -344,7 +352,7 @@
                         this.step = -1;
                         this.interval = 100;
                         this.rotate_index = 0;
-                        self.action = 'open';
+                        self.action = 'show';
 
                         this.prizes = [];
                         this.candidates = [];
@@ -354,7 +362,7 @@
                             this.step = 0;
                             this.stop = false;
                             this.rotate_index = 0;
-                            self.action = 'open';
+                            self.action = 'show';
                             this.results = [];
 
                             for (var i = 0; i < self.prizes.length; i++) {
@@ -382,6 +390,12 @@
 
                             // 先更新状态再执行函数
                             switch (self.action) {
+                                case 'show':
+                                    self.action = 'open';
+                                    $('#rotate_div').hide();
+                                    show_people();
+                                    $('#rotate_div').fadeIn('slow');
+                                    break;
                                 case 'open':
                                     self.action = 'step_open';
                                     $('#rotate_div').hide();
@@ -420,6 +434,24 @@
                         };
                     }
 
+                    function show_people() {
+                        show_current_step('参加抽奖人员名单');
+                        var show_num = 10;
+                        var peopleList = game.candidates;
+                        var str = '<table align="center">';
+                        for (var i = 0; i < peopleList.length; i++) {
+                            if(i%show_num == 0){
+                                str += '<tr><td style="font-size: 20px">' + peopleList[i] + '</td>';
+                            }else if((i+1)%show_num == 0) {
+                                str += '<td style="font-size: 20px">' + peopleList[i] + '</td></tr>\n';
+                            }else {
+                                str += '<td style="font-size: 20px">' + peopleList[i] + '</td>';
+                            }
+                        }
+                        str += '</table>';
+                        print_box(str);
+                    }
+
                     function on_open() {
                         show_current_step('活动说明');
 
@@ -451,16 +483,30 @@
 
                     function on_step_close() {
                         var str = '';
+                        var show_num = 10;
                         str += '<span>&nbsp;* 中奖名单 *&nbsp;';
                         var r = game.results[game.step - 1];
-                        for (var n = 0; n < r.length; n++) {
-                            if(n % 2 == 0){
-                                str += '<br/>' + r[n];
-                            }else{
-                                str += '&nbsp;|&nbsp;' + r[n];
+
+                        str += '<table align="center">';
+                        for (var i = 0; i < r.length; i++) {
+                            if(i%show_num == 0){
+                                str += '<tr><td style="font-size: 20px;color: #000000">' + r[i] + '</td>';
+                            }else if((i+1)%show_num == 0) {
+                                str += '<td style="font-size: 20px;color: #000000">' + r[i] + '</td></tr>\n';
+                            }else {
+                                str += '<td style="font-size: 20px;color: #000000">' + r[i] + '</td>';
                             }
                         }
-                        str += '</span>';
+                        str += '</table>';
+
+                        // for (var n = 0; n < r.length; n++) {
+                        //     if(n % 8 == 0){
+                        //         str += '<br/>' + r[n];
+                        //     }else{
+                        //         str += '&nbsp;|&nbsp;' + r[n];
+                        //     }
+                        // }
+                        // str += '</span>';
 
                         print_box(str);
                         $('#rolling_board').slideUp('normal');
