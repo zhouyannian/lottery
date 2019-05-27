@@ -426,16 +426,16 @@
 
                     function show_people() {
                         show_current_step('参加抽奖人员名单');
-                        var show_num = 6;
+                        var show_num = 4;
                         var peopleList = game.candidates;
                         var str = '<table align="center">';
                         for (var i = 0; i < peopleList.length; i++) {
                             if(i%show_num == 0){
-                                str += '<tr><td style="font-size: 20px">' + peopleList[i] + '</td>';
+                                str += '<tr><td>' + peopleList[i] + '</td>';
                             }else if((i+1)%show_num == 0) {
-                                str += '<td style="font-size: 20px">' + peopleList[i] + '</td></tr>\n';
+                                str += '<td>' + peopleList[i] + '</td></tr>\n';
                             }else {
-                                str += '<td style="font-size: 20px">' + peopleList[i] + '</td>';
+                                str += '<td>' + peopleList[i] + '</td>';
                             }
                         }
                         str += '</table>';
@@ -480,11 +480,11 @@
                         str += '<table align="center">';
                         for (var i = 0; i < r.length; i++) {
                             if(i%show_num == 0){
-                                str += '<tr><td style="font-size: 20px;color: #000000">' + r[i] + '</td>';
+                                str += '<tr><td style="color: #000000">' + r[i] + '</td>';
                             }else if((i+1)%show_num == 0) {
-                                str += '<td style="font-size: 20px;color: #000000">' + r[i] + '</td></tr>\n';
+                                str += '<td style="color: #000000">' + r[i] + '</td></tr>\n';
                             }else {
-                                str += '<td style="font-size: 20px;color: #000000">' + r[i] + '</td>';
+                                str += '<td style="color: #000000">' + r[i] + '</td>';
                             }
                         }
                         str += '</table>';
