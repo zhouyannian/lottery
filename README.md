@@ -1,5 +1,5 @@
 # lottery
-网页抽奖程序，示例运行：[https://zhouyannian.com/lottery/](https://zhouyannian.com/lottery/)
+网页抽奖程序，示例运行：[https://zhouyn.com/lottery/](https://zhouyn.com/lottery/)
 ### 抽奖软件
 > 在浏览器上运行的抽奖程序
 
